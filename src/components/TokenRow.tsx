@@ -67,7 +67,9 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
     <div 
       onClick={() => onSelect?.(token)}
       className={`
-        border-[#101114] border-b flex flex-col w-full justify-start items-center cursor-pointer relative overflow-hidden 
+        border-[#101114] border-b flex flex-col w-full justify-start items-center cursor-pointer relative 
+        /* UPDATED: Changed overflow-hidden to overflow-visible and added z-index on hover for popup */
+        overflow-visible hover:z-50
         hover:bg-primaryStroke/50 group lg:group xl:hover:bg-primaryStroke/50 
         h-[142px] min-h-[142px] sm:h-[116px] sm:min-h-[116px] md:h-[142px] md:min-h-[142px] lg:h-[142px] lg:min-h-[142px] xl:h-[116px] xl:min-h-[116px] 
         ${isSelected ? 'bg-primaryStroke/30' : ''}
@@ -250,7 +252,10 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
         <div className="flex flex-row w-full gap-3 pl-3 pr-3 sm:pr-4 pt-3 pb-0.5 justify-start items-center">
           
           <div className="flex flex-col items-center gap-1">
-            <div className="relative w-[74px] h-[74px] justify-center items-center">
+            
+            {/* === IMAGE CONTAINER WITH POPUP === */}
+            <div className="relative w-[74px] h-[74px] justify-center items-center group/image-container">
+              
               <span className="contents">
                 <div className="flex bg-virtualCurve absolute -bottom-1 -right-1 p-px w-4 h-4 justify-center items-center rounded-full z-30">
                   <div className="flex justify-center items-center bg-background absolute w-3.5 h-3.5 rounded-full z-30">
@@ -258,9 +263,24 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
                   </div>
                 </div>
               </span>
+              
               <div className="bg-virtualCurve/20 absolute flex p-px justify-start items-center rounded-sm z-20">
                 <div className="bg-backgroundSecondary flex p-0.5 justify-start items-center rounded-[3px]">
                   <div className="w-[68px] h-[68px] shrink-0 group/image relative">
+                    
+                    {/* --- BIG IMAGE POPUP --- */}
+                    <div className="hidden group-hover/image-container:block absolute left-[75px] bottom-0 z-[100] pointer-events-none">
+                      {/* Set width/height here. Using 150px to ensure it is 'big' as requested. 50px would be smaller than thumbnail. */}
+                      <div className="w-[150px] h-[150px] bg-[#101114] border border-[#2A2F3A] shadow-2xl p-1 rounded-md flex items-center justify-center relative">
+                        {token.image ? (
+                          <img src={token.image} alt={token.name} className="w-full h-full object-cover rounded-sm" />
+                        ) : (
+                          <div className="w-full h-full bg-slate-800 flex items-center justify-center text-white font-bold text-xl">{token.symbol[0]}</div>
+                        )}
+                      </div>
+                    </div>
+                    {/* ----------------------- */}
+
                     <div className="w-full h-full relative">
                       <div className="pointer-events-none border-textPrimary/10 border absolute w-[68px] h-[68px] z-10 rounded-[1px]"></div>
                       {token.image ? (
@@ -444,7 +464,7 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
                   <span className="text-[12px] font-medium" style={{ color: pillVariations.pill1 }}>0%</span>
                 </div>
               </span>
-               <span className="contents">
+                <span className="contents">
                 <div className="flex flex-row gap-1 shrink-0 w-fit h-6 px-[5px] justify-start items-center rounded-full bg-backgroundSecondary border-primaryStroke/50 border transition-all duration-300" style={{ borderColor: pillVariations.pill2, backgroundColor: `${pillVariations.pill2}20` }}>
                   <img src="/images/target.png" alt="crosshair" className="w-4 h-4" />
                   <span className="text-[12px] font-medium" style={{ color: pillVariations.pill2 }}>0%</span>

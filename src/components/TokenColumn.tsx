@@ -9,8 +9,6 @@ interface TokenColumnProps {
   isLoading?: boolean;
   onTokenSelect?: (token: Token) => void;
   selectedTokenId?: string;
-
-  // ✅ NEW PROP
   onOpenFilter?: () => void;
 }
 
@@ -30,8 +28,6 @@ export const TokenColumn: React.FC<TokenColumnProps> = memo(({
   isLoading,
   onTokenSelect,
   selectedTokenId,
-
-  // ✅ RECEIVE NEW PROP
   onOpenFilter,
 }) => {
   const [orderedIds, setOrderedIds] = useState<string[]>([]);
@@ -78,10 +74,10 @@ export const TokenColumn: React.FC<TokenColumnProps> = memo(({
   }, [tokens, orderedIds]);
 
   return (
-    <div className="border-r-[1px] border-[#1c1d24] flex flex-1 flex-col h-full justify-start items-center overflow-hidden bg-[#101114]">
+    <div className="border-r-[px] border-[#1f2128] flex flex-1 flex-col h-full justify-start items-center overflow-hidden bg-[#101114]">
       
       <div className="sticky top-0 z-30 w-full">
-        <div className="hidden sm:flex sticky top-0 z-30 whitespace-nowrap flex-row w-full gap-[12px] min-h-[48px] justify-end items-center pr-[12px] pl-[4px] lg:pl-[12px] xl:pl-[12px] border-b-[1px] border-primaryStroke bg-background">
+        <div className="hidden sm:flex sticky top-0 z-30 whitespace-nowrap flex-row w-full gap-[12px] min-h-[48px] justify-end items-center pr-[12px] pl-[4px] lg:pl-[12px] xl:pl-[12px] border-b-[1px] border-primaryStroke bg-[#101114]">
           <div className="flex flex-row items-center gap-[16px] flex-1">
             <span className="text-textPrimary text-[16px] font-medium flex-1">
               {title}
@@ -144,10 +140,10 @@ export const TokenColumn: React.FC<TokenColumnProps> = memo(({
             </div>
           </div>
 
-          {/* === SLIDER ICON (UPDATED) === */}
+          {/* === SLIDER ICON === */}
           <button
             type="button"
-            onClick={() => onOpenFilter?.()}       // ✅ ADDED
+            onClick={() => onOpenFilter?.()}
             className="
               flex flex-row p-[4px] w-[24px] h-[24px]
               justify-center items-center cursor-pointer 
@@ -163,7 +159,20 @@ export const TokenColumn: React.FC<TokenColumnProps> = memo(({
       </div>
 
       <div className="flex flex-1 w-full relative">
-        <div className="absolute inset-0 overflow-y-auto transition-all">
+        {/* SCROLLBAR CUSTOMIZATION APPLIED HERE:
+            1. [&::-webkit-scrollbar]:w-[5px]  -> Sets width to 5px (thin)
+            2. [&::-webkit-scrollbar-track]:bg-[#101114] -> Sets track color to background
+            3. [&::-webkit-scrollbar-thumb]:bg-[#2A2F3A] -> Sets thumb color to a visible dark grey
+            4. [&::-webkit-scrollbar-thumb]:rounded-full -> Rounds the scrollbar edges
+        */}
+        <div className="
+            absolute inset-0 overflow-y-auto transition-all
+            [&::-webkit-scrollbar]:w-[5px]
+            [&::-webkit-scrollbar-track]:bg-[#101114]
+            [&::-webkit-scrollbar-thumb]:bg-[#2A2F3A]
+            [&::-webkit-scrollbar-thumb]:rounded-full
+            hover:[&::-webkit-scrollbar-thumb]:bg-[#3B4049]
+        ">
           <div style={{ width: '100%', position: 'relative' }}>
             {isLoading ? (
               <div className="p-4">

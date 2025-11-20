@@ -71,6 +71,26 @@ function PageContent() {
     </div>
   );
 
+
+  const TooltipTop = ({ children, text }) => (
+  <div className="relative flex items-center justify-center group z-50">
+    {children}
+    
+    {/* Tooltip Body */}
+    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden group-hover:block z-100 whitespace-nowrap pointer-events-none">
+      <div 
+        className="text-slate-200 text-[10px] leading-3 font-medium py-1 px-2 rounded-sm shadow-xl border border-[#2A2F3A] relative"
+        style={{ backgroundColor: '#101114' }}
+      >
+        {text}
+        
+        {/* Arrow pointing Down */}
+        
+      </div>
+    </div>
+  </div>
+);
+
   return (
     <>
       <div
@@ -81,7 +101,7 @@ function PageContent() {
         /* FIXED: Changed overflow-hidden to overflow-visible so tooltips can pop out */
         overflow-visible z-50
         border-b border-[#171820] sm:border-[#171820]/70
-        bg-[#0B0E11]
+        bg-[#06070b]
       "
     >
       {/* Settings */}
@@ -213,196 +233,184 @@ function PageContent() {
 )}
 
         {/* Main Content */}
-        <div className="flex-1 p-3 sm:p-6 lg:p-8 overflow-auto">
+        <div className="flex-1 p-3 sm:p-6 lg:p-8 overflow-auto bg-[#06070b]">
           <div className="flex-none flex flex-row w-full h-[32px] justify-start items-center">
 
-  {/* LEFT — Title + Chain Switch */}
-  <div className="flex-1 flex items-center gap-3">
-    <span className="text-textPrimary text-[20px] font-bold">Pulse</span>
+      {/* LEFT — Title + Chain Switch */}
+      <div className="flex-1 flex items-center gap-3 bg-[#06070b] p-4">
+        <span className="text-textPrimary text-[20px] font-bold">Pulse</span>
 
-    {/* Chain Buttons */}
-    <div className="flex items-center gap-1">
+        {/* Chain Buttons */}
+        <div className="flex items-center gap-1">
 
-      {/* SOL Active */}
-      <button
-        type="button"
-        className="
-          relative flex items-center justify-center
-          w-[32px] h-[32px] rounded-full
-          transition-all duration-150
-          bg-[#171820] scale-110
-        "
-      >
-        <img src="/images/sol.svg" alt="SOL" width={20} height={20} />
-      </button>
-
-      {/* BNB Inactive */}
-      <button
-        type="button"
-        className="
-          relative flex items-center justify-center
-          w-[32px] h-[32px] rounded-full
-          transition-all duration-150
-          hover:bg-primaryStroke/30 hover:opacity-100
-        "
-      >
-        <img
-          src="/images/bnb.svg"
-          alt="BNB"
-          width={20}
-          height={20}
-          className="grayscale-[0.3]"
-        />
-      </button>
-    </div>
-  </div>
-
-  {/* RIGHT SECTION */}
-  <div className="flex flex-row gap-4 items-center">
-
-    {/* Help Icon */}
-    <button className="flex flex-row w-[24px] h-[24px] justify-center items-center">
-  <img
-    src="/images/help.png"
-    alt="Help"
-    className="w-[20px] h-[20px] object-contain opacity-70 hover:opacity-100 transition-all"
-  />
-</button>
-
-
-    {/* Display Dropdown */}
-    <button
-  className="
-    bg-[#22242d] flex flex-row h-[32px] px-[12px] gap-[8px] justify-center items-center rounded-full
-    hover:bg-secondaryStroke/80 transition-color duration-[150ms] ease-in-out
-  "
->
-  {/* left icon wrapper */}
-  <div className="relative">
-    <img
-      src="/images/list.png"
-      alt="list icon"
-      className="w-[18px] h-[18px]"
-    />
-  </div>
-
-  {/* text wrapper */}
-  <div className="whitespace-nowrap flex flex-row gap-[4px] justify-start items-center">
-    <span className="text-[14px] font-bold text-textPrimary">
-      Display
-    </span>
-  </div>
-
-  {/* right arrow */}
-  <img
-    src="/images/down.png"
-    alt="down arrow"
-    className="w-4 h-4"
-  />
-</button>
-
-
-    {/* Toolbar Icons */}
-    <button className="group w-8 h-8 bg-background hover:bg-primaryStroke/60 rounded-full flex items-center justify-center">
-      <img
-        src="/images/bookmark.png"
-        alt="bookmark"
-        className="w-5 h-5 group-hover:opacity-100"
-      />
-    </button>
-
-
-    <button className="group w-8 h-8 hover:bg-primaryStroke/60 rounded-full flex items-center justify-center">
-  <KeyboardBoxLineIcon className="w-4 h-4 text-textSecondary group-hover:text-textPrimary" />
-</button>
-
-    <button className="group w-8 h-8 bg-background hover:bg-primaryStroke/60 rounded-full flex items-center justify-center">
-  <img 
-    src="/images/volume.png" 
-    alt="volume" 
-    className="w-5 h-5 group-hover:opacity-100"
-  />
-</button>
-
-
-    <button className="group w-8 h-8 bg-background hover:bg-primaryStroke/60 rounded-full flex items-center justify-center relative">
-  <img
-    src="/images/target.png"
-    alt="target"
-    className="w-6 h-6 group-hover:opacity-100"
-  />
-
-  
-</button>
-
-
-    {/* Wallet Selector */}
-    <button
-      className="
-        flex border border-primaryStroke flex-row p-[4px] pr-[12px] pl-[12px] h-[32px] gap-[8px]
-        justify-center items-center rounded-full hover:bg-primaryStroke/35 transition-colors
-      "
-    >
-      <img
-  src="/images/wal2.png"
-  alt="wallet"
-  className="w-[18px] h-[18px] opacity-70 group-hover:opacity-100 transition-colors duration-150 ease-in-out"
-/>
-
-      <span className="text-[14px] text-textSecondary font-medium">1</span>
-
-      <img src="/images/sol.svg" width={16} height={16} alt="SOL" />
-      <span className="text-[14px] text-textPrimary font-medium">0</span>
-
-      <i className="ri-arrow-down-s-line text-[18px] text-textSecondary"></i>
-    </button>
-
-    {/* Right Input + P Buttons (visible on SM only) */}
-    <div className="hidden sm:block lg:hidden">
-      <div className="flex flex-row h-full gap-[8px] items-center">
-        <div
-          className="
-            overflow-hidden whitespace-nowrap border-primaryStroke border-[1px]
-            flex flex-row min-w-[216px] h-[32px] pl-[12px] gap-[8px] justify-start items-center
-            rounded-full hover:bg-primaryStroke/35 transition-colors cursor-pointer
-          "
-        >
-          <i className="ri-flashlight-fill text-textTertiary" />
-
-          <input
-            placeholder="0.0"
-            className="text-[14px] w-full text-textPrimary placeholder:text-textTertiary bg-transparent outline-none"
-          />
-
-          <img src="/images/sol.svg" width={16} height={16} alt="SOL" />
-
-          <div className="border-primaryStroke border-l-[1px] flex pr-[3px] pl-[3px] gap-[6px] items-center">
-
-            {/* P1 */}
-            <button className="group w-[24px] h-[24px] rounded-[4px] hover:bg-primaryBlueHover/10 flex items-center justify-center">
-              <span className="text-[13px] text-primaryBlue group-hover:text-primaryBlueHover font-medium">P1</span>
+          {/* SOL Active */}
+          <TooltipTop text="Solana">
+            <button
+              type="button"
+              className="
+                relative flex items-center justify-center
+                w-[32px] h-[32px] rounded-full
+                transition-all duration-150
+                bg-[#171820] scale-110
+              "
+            >
+              <img src="/images/sol.svg" alt="SOL" width={20} height={20} />
             </button>
+          </TooltipTop>
 
-            {/* P2 */}
-            <button className="group w-[24px] h-[24px] rounded-[4px] hover:bg-primaryStroke/60 flex items-center justify-center">
-              <span className="text-[13px] text-textSecondary">P2</span>
+          {/* BNB Inactive */}
+          <TooltipTop text="BNB">
+            <button
+              type="button"
+              className="
+                relative flex items-center justify-center
+                w-[32px] h-[32px] rounded-full
+                transition-all duration-150
+                hover:bg-primaryStroke/30 hover:opacity-100
+              "
+            >
+              <img
+                src="/images/bnb.svg"
+                alt="BNB"
+                width={20}
+                height={20}
+                className="grayscale-[0.3]"
+              />
             </button>
-
-            {/* P3 */}
-            <button className="group w-[24px] h-[24px] rounded-r-full rounded-l-[4px] hover:bg-primaryStroke/60 flex items-center justify-center">
-              <span className="text-[13px] text-textSecondary">P3</span>
-            </button>
-
-          </div>
+          </TooltipTop>
         </div>
       </div>
+
+      {/* RIGHT SECTION */}
+      <div className="flex flex-row gap-4 items-center bg-[#06070b] p-4">
+
+        {/* Help Icon */}
+        <TooltipTop text="Help with Pulse, Filters Settings">
+          <button className="flex flex-row w-[24px] h-[24px] justify-center items-center">
+            <img
+              src="/images/help.png"
+              alt="Help"
+              className="w-[20px] h-[20px] object-contain opacity-70 hover:opacity-100 transition-all"
+            />
+          </button>
+        </TooltipTop>
+
+
+        {/* Display Dropdown (Usually doesn't need a tooltip if it has text, but added wrapper if needed) */}
+        <button
+          className="
+            bg-[#22242d] flex flex-row h-[32px] px-[12px] gap-[8px] justify-center items-center rounded-full
+            hover:bg-secondaryStroke/80 transition-color duration-[150ms] ease-in-out
+          "
+        >
+          <div className="relative">
+            <img src="/images/list.png" alt="list icon" className="w-[18px] h-[18px]" />
+          </div>
+          <div className="whitespace-nowrap flex flex-row gap-[4px] justify-start items-center">
+            <span className="text-[14px] font-bold text-textPrimary">Display</span>
+          </div>
+          <img src="/images/down.png" alt="down arrow" className="w-4 h-4" />
+        </button>
+
+
+        {/* Toolbar Icons */}
+        
+        {/* Bookmark */}
+        <TooltipTop text="Blacklist dev, handle, keywords">
+          <button className="group w-8 h-8 bg-background hover:bg-primaryStroke/60 rounded-full flex items-center justify-center">
+            <img
+              src="/images/bookmark.png"
+              alt="bookmark"
+              className="w-5 h-5 group-hover:opacity-100"
+            />
+          </button>
+        </TooltipTop>
+
+        {/* Keyboard */}
+        <TooltipTop text="Pulse Hot Keys">
+          <button className="group w-8 h-8 hover:bg-primaryStroke/60 rounded-full flex items-center justify-center">
+            <KeyboardBoxLineIcon className="w-4 h-4 text-textSecondary group-hover:text-textPrimary" />
+          </button>
+        </TooltipTop>
+
+        {/* Volume */}
+        <TooltipTop text="Alerts">
+          <button className="group w-8 h-8 bg-background hover:bg-primaryStroke/60 rounded-full flex items-center justify-center">
+            <img 
+              src="/images/volume.png" 
+              alt="volume" 
+              className="w-5 h-5 group-hover:opacity-100"
+            />
+          </button>
+        </TooltipTop>
+
+        {/* Target */}
+        <TooltipTop text="Snipe Settings">
+          <button className="group w-8 h-8 bg-background hover:bg-primaryStroke/60 rounded-full flex items-center justify-center relative">
+            <img
+              src="/images/target.png"
+              alt="target"
+              className="w-6 h-6 group-hover:opacity-100"
+            />
+          </button>
+        </TooltipTop>
+
+
+        {/* Wallet Selector */}
+        <button
+          className="
+            flex border border-primaryStroke flex-row p-[4px] pr-[12px] pl-[12px] h-[32px] gap-[8px]
+            justify-center items-center rounded-full hover:bg-primaryStroke/35 transition-colors
+          "
+        >
+          <img
+            src="/images/wal2.png"
+            alt="wallet"
+            className="w-[18px] h-[18px] opacity-70 group-hover:opacity-100 transition-colors duration-150 ease-in-out"
+          />
+          <span className="text-[14px] text-textSecondary font-medium">1</span>
+          <img src="/images/sol.svg" width={16} height={16} alt="SOL" />
+          <span className="text-[14px] text-textPrimary font-medium">0</span>
+          <i className="ri-arrow-down-s-line text-[18px] text-textSecondary"></i>
+        </button>
+
+        {/* Right Input + P Buttons (visible on SM only) */}
+        <div className="hidden sm:block lg:hidden">
+          <div className="flex flex-row h-full gap-[8px] items-center">
+            <div
+              className="
+                overflow-hidden whitespace-nowrap border-primaryStroke border-[1px]
+                flex flex-row min-w-[216px] h-[32px] pl-[12px] gap-[8px] justify-start items-center
+                rounded-full hover:bg-primaryStroke/35 transition-colors cursor-pointer
+              "
+            >
+              <i className="ri-flashlight-fill text-textTertiary" />
+              <input
+                placeholder="0.0"
+                className="text-[14px] w-full text-textPrimary placeholder:text-textTertiary bg-transparent outline-none"
+              />
+              <img src="/images/sol.svg" width={16} height={16} alt="SOL" />
+              <div className="border-primaryStroke border-l-[1px] flex pr-[3px] pl-[3px] gap-[6px] items-center">
+                <button className="group w-[24px] h-[24px] rounded-[4px] hover:bg-primaryBlueHover/10 flex items-center justify-center">
+                  <span className="text-[13px] text-primaryBlue group-hover:text-primaryBlueHover font-medium">P1</span>
+                </button>
+                <button className="group w-[24px] h-[24px] rounded-[4px] hover:bg-primaryStroke/60 flex items-center justify-center">
+                  <span className="text-[13px] text-textSecondary">P2</span>
+                </button>
+                <button className="group w-[24px] h-[24px] rounded-r-full rounded-l-[4px] hover:bg-primaryStroke/60 flex items-center justify-center">
+                  <span className="text-[13px] text-textSecondary">P3</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
-  </div>
-</div>
 
 
           {/* Token Columns Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-200px)] bg-[#101114]">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[calc(100vh-250px)] bg-[#101114] mt-4 border border-[#323239] rounded-lg">
             {/* New Pairs */}
             <TokenColumn
               title="New Pairs"
