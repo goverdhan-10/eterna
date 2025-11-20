@@ -479,7 +479,7 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
               <span className="contents">
                 <div className="flex flex-row gap-1 shrink-0 w-fit h-6 px-[5px] justify-start items-center rounded-full bg-backgroundSecondary border-primaryStroke/50 border transition-all duration-300" style={{ borderColor: pillVariations.pill4, backgroundColor: `${pillVariations.pill4}20` }}>
                   <div className="flex justify-center items-center min-w-3.5 min-h-3.5 max-w-3.5 max-h-3.5">
-                    <img src="/images/database.png" alt="boxes" className="w-5 h-5" />
+                    <img src="/images/database.png" alt="boxes" className="w-5 h-3" />
                   </div>
                   <span className="text-[12px] font-medium" style={{ color: pillVariations.pill4 }}>0%</span>
                 </div>
