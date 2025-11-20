@@ -9,18 +9,18 @@ interface TokenRowProps {
 }
 
 export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSelected }) => {
-  // Calculate visual pressure for the TX bar based on price change
+  const GREEN = '#22C55E'; 
+  const RED = '#FF6B6B';   
+
   const buyPercentage = token.priceChange24h > 0 
     ? Math.min(90, 50 + token.priceChange24h) 
     : Math.max(10, 50 + token.priceChange24h);
   const sellPercentage = 100 - buyPercentage;
 
-  // Toggle states for the left-side action buttons
   const [eyeOn, setEyeOn] = useState(false);
   const [chefOn, setChefOn] = useState(false);
   const [circleOn, setCircleOn] = useState(false);
 
-  // State for dynamic color variations
   const [lastPrice, setLastPrice] = useState(token.currentPrice);
   const [priceDirection, setPriceDirection] = useState<'up' | 'down' | 'neutral'>('neutral');
   const [hasRecentChange, setHasRecentChange] = useState(false);
@@ -31,12 +31,12 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
       setHasRecentChange(true);
       const timer = setTimeout(() => setHasRecentChange(false), 1000);
       return () => clearTimeout(timer);
-    } else if (token.currentPrice < lastPrice) {
+        } else if (token.currentPrice < lastPrice) {
       setPriceDirection('down');
       setHasRecentChange(true);
       const timer = setTimeout(() => setHasRecentChange(false), 1000);
       return () => clearTimeout(timer);
-    }
+        }
     setLastPrice(token.currentPrice);
   }, [token.currentPrice, lastPrice]);
 
@@ -44,45 +44,24 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
     setLastPrice(token.currentPrice);
   }, []);
 
-  // Dynamic color palette based on price change
   const getColorVariant = () => {
-    const absChange = Math.abs(token.priceChange24h);
-    if (absChange > 50) return { text: '#FF5733', bg: '#FF5733', label: 'extreme' }; // Extreme red/orange
-    if (absChange > 30) return { text: '#FF6B6B', bg: '#FF6B6B', label: 'very-high' }; // High red
-    if (token.priceChange24h > 15) return { text: '#52C5FF', bg: '#52C5FF', label: 'high' }; // Bright blue
-    if (token.priceChange24h > 5) return { text: '#4ECDC4', bg: '#4ECDC4', label: 'medium-up' }; // Teal
-    if (token.priceChange24h > 0) return { text: '#95E1D3', bg: '#95E1D3', label: 'slight-up' }; // Light green
-    if (token.priceChange24h > -5) return { text: '#F0A500', bg: '#F0A500', label: 'slight-down' }; // Orange
-    if (token.priceChange24h > -15) return { text: '#FF8C42', bg: '#FF8C42', label: 'medium-down' }; // Orange-red
-    if (token.priceChange24h > -30) return { text: '#FF6348', bg: '#FF6348', label: 'high-down' }; // Red
-    return { text: '#EE5A6F', bg: '#EE5A6F', label: 'extreme-down' }; // Deep red
+    if (token.priceChange24h >= 0) return { text: GREEN, bg: GREEN };
+    return { text: RED, bg: RED };
   };
 
   const colorVariant = getColorVariant();
 
-  // Calculate glow intensity based on price change
   const glowIntensity = Math.min(Math.abs(token.priceChange24h) / 50, 1);
-  const glowColor = token.priceChange24h >= 0 
-    ? `rgba(82, 197, 255, ${glowIntensity * 0.4})`
-    : `rgba(255, 107, 107, ${glowIntensity * 0.4})`;
-
-  // Determine stat indicator colors
-  const getStatColor = (value: number) => {
-    if (value > 100) return '#FF5733';
-    if (value > 50) return '#FF6B6B';
-    if (value > 20) return '#52C5FF';
-    if (value > 10) return '#4ECDC4';
-    if (value > 0) return '#95E1D3';
-    return '#666';
-  };
-
-  // Random variation for visual interest
-  const [pillVariations] = useState(() => ({
-    pill1: Math.random() > 0.5 ? '#FF6B6B' : '#52C5FF',
-    pill2: Math.random() > 0.5 ? '#4ECDC4' : '#95E1D3',
-    pill3: Math.random() > 0.5 ? '#F0A500' : '#FF8C42',
-    pill4: Math.random() > 0.5 ? '#52C5FF' : '#4ECDC4',
-  }));
+  
+  const [pillVariations] = useState(() => {
+    const getRandomColor = () => Math.random() > 0.5 ? GREEN : RED;
+    return {
+      pill1: getRandomColor(),
+      pill2: getRandomColor(),
+      pill3: getRandomColor(),
+      pill4: getRandomColor(),
+    };
+  });
 
   return (
     <div 
@@ -97,7 +76,6 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
     >
       <div className="w-full h-full flex flex-col">
         
-        {/* --- Hover Action Buttons (Top Left) --- */}
         <span className="contents">
           <button
             type="button"
@@ -131,35 +109,87 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
           </button>
         </span>
         
-        {/* --- Quick Buy Button (Mobile) --- */}
         <div className="absolute right-3 bottom-2.5 sm:right-4 sm:bottom-3 z-20 block sm:hidden">
           <div>
             <div className=" ">
-              <button type="button" className="bg-primaryBlue hover:bg-primaryBlueHover text-[#090909] flex flex-row gap-1 justify-center items-center rounded-[999px] h-6 whitespace-nowrap transition-all duration-0 relative overflow-hidden group/quickBuyButton " style={{ paddingLeft: '6px', paddingRight: '6px' }}>
-                <img src="/images/flash.png" alt="flash" className="w-4 h-4 relative z-10" />
-                <span className="text-[12px] font-bold relative z-10">0 SOL</span>
-              </button>
+              <button
+  type="button"
+  className="
+    flex flex-row gap-1 justify-center items-center 
+    rounded-[999px] h-6 whitespace-nowrap
+    transition-all
+    px-2
+    min-w-[60px]
+    z-50
+  "
+  style={{
+    backgroundColor: "#3B82F6", // bright blue
+    border: "1px solid #FFFFFF33", // subtle visible border
+  }}
+>
+  <img
+    src="/images/flash.png"
+    alt="flash"
+    className="w-4 h-4"
+    style={{
+      filter: "brightness(200%) contrast(200%)", // force visible
+    }}
+  />
+
+  <span
+    className="text-[12px] font-bold"
+    style={{
+      color: "#FFFFFF", // pure white text
+    }}
+  >
+    0 SOL
+  </span>
+</button>
+
+
             </div>
           </div>
         </div>
 
-        {/* --- Quick Buy Button (Desktop) --- */}
-        <div className="absolute right-3 bottom-4 sm:right-4 sm:bottom-4 z-20 hidden sm:block lg:opacity-0 lg:group-hover:opacity-100 xl:opacity-100 2xl:!opacity-100">
-          <div className="opacity-0 group-hover:opacity-100 2xl:!opacity-100">
-            <div className=" ">
-              <button type="button" className="bg-primaryBlue hover:bg-primaryBlueHover text-[#090909] flex flex-row gap-1 justify-center items-center rounded-[999px] h-6 whitespace-nowrap transition-all duration-0 relative overflow-hidden group/quickBuyButton " style={{ paddingLeft: '6px', paddingRight: '6px' }}>
-                <img src="/images/flash.png" alt="flash" className="w-4 h-4 relative z-10" />
-                <span className="text-[12px] font-bold relative z-10">0 SOL</span>
-              </button>
-            </div>
-          </div>
-        </div>
+        <div
+  className="
+    absolute right-3 bottom-4 sm:right-4 sm:bottom-4 z-20 
+    hidden sm:block 
+    lg:opacity-0 lg:group-hover:opacity-100 
+    xl:opacity-100 
+    2xl:!opacity-100
+  "
+>
+  <div className="opacity-0 group-hover:opacity-100 2xl:!opacity-100">
+    <button
+      type="button"
+      className="
+        flex flex-row gap-1 justify-center items-center 
+        rounded-[999px] h-6 whitespace-nowrap
+        px-2 min-w-[60px] z-50 transition-all
+      "
+      style={{
+        backgroundColor: "#3B82F6",
+        border: "1px solid #FFFFFF33",
+      }}
+    >
+      <img
+        src="/images/flash.png"
+        alt="flash"
+        className="w-4 h-4"
+        style={{
+          filter: "brightness(200%) contrast(200%)",
+        }}
+      />
+      <span className="text-[12px] font-bold text-white">0 SOL</span>
+    </button>
+  </div>
+</div>
 
-        {/* --- Top Right Stats Block (MC, V, F, TX) --- */}
+
         <div className="absolute right-4 top-4 z-10 block">
           <div className="flex flex-col gap-0.5 items-end">
             
-            {/* Market Cap */}
             <div className="relative">
               <div className="absolute z-0" style={{ inset: '-12px -8px 1px -4px' }}>
                 <div className="group-hover:bg-primaryStroke/50 absolute inset-0 z-10"></div>
@@ -177,7 +207,6 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
               </div>
             </div>
 
-            {/* Volume */}
             <div className="relative">
               <div className="absolute z-0" style={{ inset: '-12px -8px 1px -4px' }}>
                 <div className="group-hover:bg-primaryStroke/50 absolute inset-0 z-10"></div>
@@ -187,7 +216,7 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
                 <span className="contents">
                   <div className="flex flex-row h-[18px] flex-1 gap-1 justify-end items-end">
                     <span className="text-textTertiary text-[12px] font-medium pb-[1.6px]">V</span>
-                    <span className="text-[16px] font-medium transition-colors duration-300" style={{ color: token.priceChange24h >= 0 ? '#52C5FF' : '#FF6B6B' }}>
+                    <span className="text-[16px] font-medium transition-colors duration-300" style={{ color: token.priceChange24h >= 0 ? GREEN : RED }}>
                       {token.volume24h ? formatCurrency(token.volume24h) : '$0'}
                     </span>
                   </div>
@@ -195,19 +224,17 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
               </div>
             </div>
 
-            {/* Price (F) and Transactions (TX) */}
             <div className="relative flex flex-row gap-2 justify-start items-start -mt-0.5">
               <div className="absolute z-0" style={{ inset: '-2px -8px -4px -4px' }}>
                 <div className="group-hover:bg-primaryStroke/50 absolute inset-0 z-5"></div>
                 <div className="bg-backgroundSecondary absolute inset-0 z-0"></div>
               </div>
               
-              {/* Floor/Price */}
               <span className="contents">
                 <div className="relative flex flex-row justify-end items-center h-3 gap-1 shrink-0 group/image text-nowrap z-20">
                   <span className="text-textTertiary text-[11px] font-medium">F</span>
                   <div className="flex flex-row gap-0.5 items-center">
-                    <img alt="SOL" loading="eager" width="14" height="14" decoding="async" className="w-3.5 h-3.5" src="/images/sol.png" style={{ color: 'transparent' }} />
+                    <img alt="SOL" loading="eager" width="14" height="14" decoding="async" className="w-3.5 h-3.5" src="/images/sol.svg" style={{ color: 'transparent' }} />
                     <span className="text-textPrimary text-[12px] font-medium">
                       {token.currentPrice.toFixed(6)}
                     </span>
@@ -215,24 +242,13 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
                 </div>
               </span>
 
-              {/* TX Bar */}
-              <span className="contents">
-                <div className="relative flex flex-row justify-end items-center h-3 gap-1 shrink-0 group/image text-nowrap z-20">
-                  <span className="text-textTertiary text-[11px] font-medium">TX <span className="text-textPrimary text-[11px] font-medium">2</span></span>
-                  <div className="flex flex-row flex-1 min-w-6 max-w-6 h-0.5 bg-secondaryStroke rounded-full overflow-hidden">
-                    <div className="h-0.5 transition-all duration-300" style={{ width: `${buyPercentage}%`, backgroundColor: token.priceChange24h >= 0 ? '#52C5FF' : '#FF6B6B' }}></div>
-                    <div className="h-0.5 transition-all duration-300" style={{ width: `${sellPercentage}%`, backgroundColor: token.priceChange24h >= 0 ? '#FF6B6B' : '#4ECDC4' }}></div>
-                  </div>
-                </div>
-              </span>
+              
             </div>
           </div>
         </div>
 
-        {/* --- Main Content Flex Row --- */}
         <div className="flex flex-row w-full gap-3 pl-3 pr-3 sm:pr-4 pt-3 pb-0.5 justify-start items-center">
           
-          {/* Image Section */}
           <div className="flex flex-col items-center gap-1">
             <div className="relative w-[74px] h-[74px] justify-center items-center">
               <span className="contents">
@@ -259,7 +275,6 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
                   </div>
                 </div>
               </div>
-              {/* The Ring SVG */}
               <div className="absolute top-0 left-0 w-[74px] h-[74px] rounded-sm z-10 flex items-center justify-center">
                 <div className="inline-flex items-center justify-center">
                   <svg width="78" height="78" viewBox="0 0 78 78">
@@ -278,11 +293,9 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
             </span>
           </div>
 
-          {/* Text Info Section */}
           <div className="flex flex-col flex-1 h-full gap-5 justify-start items-start pt-0 pb-3 overflow-hidden">
             <div className="flex flex-col w-full gap-0.5 justify-start items-start min-w-0">
               
-              {/* Name and Symbol Header */}
               <div className="flex flex-row min-h-[18px] w-full gap-1 justify-between items-start min-w-0">
                 <div className="overflow-hidden">
                   <div className="justify-start items-start" style={{ minWidth: '111px' }}>
@@ -305,7 +318,6 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
                 </div>
               </div>
 
-              {/* Socials, Time, Badges */}
               <div className="flex flex-row w-full h-[18px] gap-3 lg:gap-2 xl:gap-3 justify-start items-center">
                 <div className="flex items-center gap-2">
                   <span className="text-primaryGreen text-[14px] font-medium">6d</span>
@@ -322,7 +334,6 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
                     <img src="/images/search.png" alt="search" className="w-4 h-4 opacity-60 hover:opacity-100 transition-opacity" />
                   </a>
                 </div>
-                {/* Desktop Stats Row */}
                 <div className="flex-row flex-1 h-[18px] gap-2 justify-start items-center hidden sm:flex md:hidden lg:hidden xl:flex">
                   <span className="contents">
                     <div className="flex flex-row gap-0.5 h-4 justify-start items-center">
@@ -353,7 +364,6 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
                 </div>
               </div>
 
-              {/* Mobile Stats Row */}
               <div className="flex sm:hidden md:flex lg:flex xl:hidden flex-row flex-1 h-[18px] gap-2 justify-start items-center pt-[3px]">
                 <div className="flex flex-row gap-0.5 h-4 justify-start items-center">
                   <img src="/images/profile2.png" alt="holders" className="w-4 h-4" />
@@ -378,7 +388,6 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
               </div>
             </div>
 
-            {/* --- Bottom Pills Row (Desktop) --- */}
             <div className="hidden sm:flex md:hidden lg:hidden xl:flex flex-row w-full h-6 gap-1 justify-start items-end">
               <div>
                 <div className="flex flex-row gap-1 shrink-0 h-6 px-[5px] justify-start items-center rounded-full bg-backgroundSecondary border-primaryStroke/50 border transition-all duration-300" style={{ borderColor: colorVariant.bg, backgroundColor: `${colorVariant.bg}20` }}>
@@ -418,7 +427,6 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
               </span>
             </div>
 
-            {/* --- Bottom Pills Row (Mobile) --- */}
             <div className="flex sm:hidden md:flex lg:flex xl:hidden flex-row w-full h-6 gap-1 px-3 justify-start items-end">
               <div>
                 <div className="flex flex-row gap-1 shrink-0 h-6 px-[5px] justify-start items-center rounded-full bg-backgroundSecondary border-primaryStroke/50 border transition-all duration-300" style={{ borderColor: colorVariant.bg, backgroundColor: `${colorVariant.bg}20` }}>

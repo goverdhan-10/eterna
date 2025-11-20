@@ -12,9 +12,12 @@ export default function Topbar() {
   const [active, setActive] = useState("Pulse");
   const [isNetworkDropdownOpen, setIsNetworkDropdownOpen] = useState(false);
   const [isWalletDropdownOpen, setIsWalletDropdownOpen] = useState(false);
+  const [isSettingsDropdownOpen, setIsSettingsDropdownOpen] = useState(false);
+
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const walletDropdownRef = useRef<HTMLDivElement>(null);
+  const settingsDropdownRef = useRef<HTMLDivElement>(null);
 
   const handleScroll = (direction: "left" | "right") => {
     if (scrollContainerRef.current) {
@@ -35,25 +38,26 @@ export default function Topbar() {
       if (walletDropdownRef.current && !walletDropdownRef.current.contains(event.target as Node)) {
         setIsWalletDropdownOpen(false);
       }
+      if (settingsDropdownRef.current && !settingsDropdownRef.current.contains(event.target as Node)) {
+        setIsSettingsDropdownOpen(false);
+      }
     };
 
-    if (isNetworkDropdownOpen || isWalletDropdownOpen) {
+    if (isNetworkDropdownOpen || isWalletDropdownOpen || isSettingsDropdownOpen) {
       document.addEventListener('mousedown', handleClickOutside);
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
     }
-  }, [isNetworkDropdownOpen, isWalletDropdownOpen]);
+  }, [isNetworkDropdownOpen, isWalletDropdownOpen, isSettingsDropdownOpen]);
 
   const navItems = [
     "Discover", "Pulse", "Trackers", "Perpetuals", "Yield", "Vision", "Portfolio", "Rewards"
   ];
 
-  // Reusable Network Dropdown Component
   const NetworkDropdown = () => (
     <div className={`absolute top-[calc(100%+4px)] left-0 z-9999 min-w-40 bg-[#0B0E11] border border-[#1C212B] rounded-sm shadow-xl transition-all duration-200 ${isNetworkDropdownOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`}>
       <div className="p-1 flex flex-col gap-1">
-        {/* Solana Item (Active) */}
         <button type="button" className="relative w-full px-3 h-10 text-left text-sm bg-[#1C212B]/40 hover:bg-[#1C212B]/80 text-slate-100 rounded-sm transition-all duration-150 active:scale-95">          <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
               <img alt="Solana" width="18" height="18" src="/images/sol.svg" className="shrink-0" />
@@ -61,7 +65,6 @@ export default function Topbar() {
             </div>
           </div>
         </button>
-        {/* BNB Item (Inactive) */}
         <button type="button" className="relative w-full px-3 h-10 text-left text-sm hover:bg-[#1C212B]/80 text-slate-400 hover:text-slate-100 rounded-sm transition-all duration-150 active:scale-95">
           <div className="flex items-center justify-between gap-2">
             <div className="flex items-center gap-2">
@@ -74,37 +77,27 @@ export default function Topbar() {
     </div>
   );
 
-  // Tooltip Component
-// 1. Define Tooltip component outside the main WalletDropdown function
-const Tooltip = ({ children, text, width = "w-max" }: { children: React.ReactNode; text: string; width?: string }) => (
-  <div className="relative flex items-center group z-10000">
-    {children}
-    {/* Tooltip Body - positioned above (bottom-full) with a margin (mb-2) */}
-    <div className={`absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-10001 pointer-events-none ${width}`}>
-      <div className="bg-[#13161B] text-slate-200 text-xs font-medium py-2 px-3 rounded-sm shadow-2xl border border-[#2A2F3A] text-center leading-tight whitespace-nowrap">
-        {text}
+  const Tooltip = ({ children, text, width = "w-max" }: { children: React.ReactNode; text: string; width?: string }) => (
+    <div className="relative flex items-center group z-10000">
+      {children}
+      <div className={`absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-10001 pointer-events-none ${width}`}>
+        <div className="bg-[#13161B] text-slate-200 text-xs font-medium py-2 px-3 rounded-sm shadow-2xl border border-[#2A2F3A] text-center leading-tight whitespace-nowrap">
+          {text}
+        </div>
+        <div className="w-2 h-2 bg-[#13161B] border-r border-b border-[#2A2F3A] transform rotate-45 absolute -bottom-1 left-1/2 -translate-x-1/2"></div>
       </div>
-      {/* Tooltip Arrow */}
-      <div className="w-2 h-2 bg-[#13161B] border-r border-b border-[#2A2F3A] transform rotate-45 absolute -bottom-1 left-1/2 -translate-x-1/2"></div>
     </div>
-  </div>
-);
+  );
 
-// 2. Your Main WalletDropdown Component
-const WalletDropdown = () => (
+  const WalletDropdown = () => (
     <div className={`
       absolute top-[calc(100%+12px)] right-0 z-9999 w-64 
       bg-[#0B0E11] border border-[#1C212B] rounded-sm shadow-2xl 
       flex flex-col transition-all duration-200 origin-top-right overflow-visible
       ${isWalletDropdownOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible translate-y-2'}
     `}>
-      
-      {/* --- HEADER --- */}
       <div className="border-b border-[#1C212B] flex flex-col p-4 gap-1 items-start w-full">
-        {/* Label Row */}
         <div className="flex flex-row w-full h-6 gap-1 justify-between items-center">
-          
-          {/* Total Value Label with Tooltip */}
           <div className="flex flex-row gap-1 items-center flex-1">
             <Tooltip text="Combined value of Solana, Perpetuals, and Yield accounts" width="w-44">
               <span className="text-[#94A3B8] text-xs leading-4 font-normal tracking-tighter border-b border-dashed border-[#94A3B8]/20 hover:border-slate-100 hover:text-slate-100 transition-colors cursor-help">
@@ -112,8 +105,6 @@ const WalletDropdown = () => (
               </span>
             </Tooltip>
           </div>
-          
-          {/* Copy Buttons (Removed inner 'group' to prevent conflict) */}
           <div className="flex items-center gap-1">
             <Tooltip text="Copy Primary SOL address">
               <button className="flex flex-row gap-1 px-1 h-6 items-center rounded-sm hover:bg-[#1C212B]/60 transition-colors hover:[&>img]:opacity-100 hover:[&>span]:text-slate-200">
@@ -121,7 +112,6 @@ const WalletDropdown = () => (
                 <span className="text-[#94A3B8] text-xs leading-4 font-normal transition-colors">Solana</span>
               </button>
             </Tooltip>
-
             <Tooltip text="Copy Perps address">
               <button className="flex flex-row gap-1 px-1 h-6 items-center rounded-sm hover:bg-[#1C212B]/60 transition-colors hover:[&>img]:opacity-100 hover:[&>span]:text-slate-200">
                 <img src="/images/copy.png" alt="copy" className="w-3 h-3 opacity-60 transition-opacity" />
@@ -130,38 +120,25 @@ const WalletDropdown = () => (
             </Tooltip>
           </div>
         </div>
-        
-        {/* Value Display */}
         <div className="flex flex-row items-center gap-1">
           <span className="text-slate-100 text-lg leading-6 font-normal">$0</span>
         </div>
       </div>
-
-      {/* --- MIDDLE (Balances) --- */}
-      {/* Removed inner 'group' here as well to be safe, targeting children via parent hover */}
       <div className="border-b border-[#1C212B]/50 h-12 flex flex-row justify-between items-center hover:bg-[#1C212B]/40 cursor-pointer px-4 [&:hover>div>img[alt='Exchange']]:opacity-100">
-         
-         {/* SOL Balance with Tooltip */}
          <Tooltip text="Primary SOL wallet Balance">
            <div className="flex flex-row gap-1 h-6 items-center">
               <img src="/images/sol.svg" width={18} height={18} alt="SOL" />
               <span className="text-slate-100 text-base leading-5 font-medium">0</span>
            </div>
          </Tooltip>
-
-         {/* Exchange Icon */}
          <div className="flex flex-row gap-1 h-6 justify-center items-center">
             <img src="/images/exchange.png" width={16} height={16} alt="Exchange" className="opacity-60 transition-opacity" />
          </div>
-
-         {/* USDC/Dollar Balance */}
          <div className="flex flex-row gap-1 h-6 justify-center items-center">
             <img src="/images/usdc.svg" width={20} height={20} alt="USDC" />
             <span className="text-slate-100 text-base leading-5 font-medium">0</span>
          </div>
       </div>
-
-      {/* --- FOOTER (Actions) --- */}
       <div className="flex flex-row p-4 pb-5 gap-4 justify-start items-center">
          <button className="bg-[#3B82F6] flex-1 h-7 px-3 flex flex-row justify-center items-center rounded-full hover:bg-[#2563EB] transition-colors shadow-lg shadow-blue-900/20">
            <span className="text-[#0B0E11] text-xs leading-4 font-bold">Deposit</span>
@@ -170,20 +147,81 @@ const WalletDropdown = () => (
            <span className="text-slate-100 text-xs leading-4 font-bold">Withdraw</span>
          </button>
       </div>
-
     </div>
-);
+  );
+
+  // UPDATED SettingsDropdown: Replaced hover:bg-[#1C212B]/60 with hover:bg-[#666d83]
+  const SettingsDropdown = ({ isSettingsDropdownOpen }: { isSettingsDropdownOpen: boolean }) => (
+    <div className={`
+      absolute top-[calc(100%+12px)] right-0 z-[9999] w-60
+      bg-[#0B0E11] border border-[#1C212B] rounded-sm shadow-2xl 
+      flex flex-col transition-all duration-200 origin-top-right overflow-hidden py-2
+      ${isSettingsDropdownOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible translate-y-2'}
+    `}>
+      
+      {/* Account and Security */}
+      <button className="flex flex-row items-center gap-3 px-4 py-3 hover:bg-[#666d83] transition-colors group w-full text-left">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#94A3B8] group-hover:text-slate-200 transition-colors">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+        <span className="text-slate-200 text-sm font-medium group-hover:text-white transition-colors">
+          Account and Security
+        </span>
+      </button>
+
+      {/* Auto Translate */}
+      <button className="flex flex-row items-center gap-3 px-4 py-3 hover:bg-[#666d83] transition-colors group w-full text-left">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#94A3B8] group-hover:text-slate-200 transition-colors">
+          <path d="m5 8 6 6"></path>
+          <path d="m4 14 6-6 2-3"></path>
+          <path d="M2 5h12"></path>
+          <path d="M7 2h1"></path>
+          <path d="m22 22-5-10-5 10"></path>
+          <path d="M14 18h6"></path>
+        </svg>
+        <span className="text-slate-200 text-sm font-medium group-hover:text-white transition-colors">
+          Auto Translate
+        </span>
+      </button>
+
+      {/* Feature Updates */}
+      <button className="flex flex-row items-center gap-3 px-4 py-3 hover:bg-[#666d83] transition-colors group w-full text-left">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#94A3B8] group-hover:text-slate-200 transition-colors">
+          <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path>
+          <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path>
+          <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path>
+          <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path>
+        </svg>
+        <span className="text-slate-200 text-sm font-medium group-hover:text-white transition-colors">
+          Feature Updates
+        </span>
+      </button>
+
+      {/* Log Out */}
+      <button className="flex flex-row items-center gap-3 px-4 py-3 hover:bg-[#666d83] transition-colors group w-full text-left mt-1">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#F43F5E] group-hover:text-[#FB7185] transition-colors">
+           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+           <polyline points="16 17 21 12 16 7"></polyline>
+           <line x1="21" x2="9" y1="12" y2="12"></line>
+        </svg>
+        <span className="text-[#F43F5E] text-sm font-medium group-hover:text-[#FB7185] transition-colors">
+          Log Out
+        </span>
+      </button>
+    </div>
+  );
+
   return (
-    // CHANGE 1 & 2: Removed 'overflow-hidden' and added 'z-50 relative'
-    // This allows dropdowns to spill out and stay on top of layout children
     <>
-      {/* Clickable Backdrop for closing dropdowns */}
-      {(isNetworkDropdownOpen || isWalletDropdownOpen) && (
+      {/* Clickable Backdrop */}
+      {(isNetworkDropdownOpen || isWalletDropdownOpen || isSettingsDropdownOpen) && (
         <div 
           className="fixed inset-0 z-9998"
           onClick={() => {
             setIsNetworkDropdownOpen(false);
             setIsWalletDropdownOpen(false);
+            setIsSettingsDropdownOpen(false);
           }}
         />
       )}
@@ -191,7 +229,7 @@ const WalletDropdown = () => (
       <div className="border-b border-[#1C212B] z-50 relative flex flex-row w-full h-[52px] sm:h-16 min-h-12 sm:min-h-16 px-4 sm:px-4 lg:px-6 gap-4 sm:gap-4 lg:gap-6 justify-between sm:justify-start items-center bg-[#0B0E11]">
       
       {/* --- LOGO --- */}
-      <div className="flex flex-row flex-0 gap-0 justify-start items-center w-9 sm:w-6 2xl:w-32">
+      <div className="flex flex-row flex-0 gap-0 justify-start items-center w-auto min-w-max">
         <a href="/?chain=sol">
           <div className="flex flex-row items-center">
             <div className="flex flex-row items-center">
@@ -222,14 +260,11 @@ const WalletDropdown = () => (
 
       {/* --- NAV ITEMS (Scrollable) --- */}
       <div className="relative hidden sm:flex flex-1 min-w-0 ml-4 group h-full items-center">
-        {/* Left Scroll Arrow Gradient */}
         <div className="absolute left-0 top-0 bottom-0 z-40 flex items-center bg-linear-to-r from-[#0B0E11] via-[#0B0E11] to-transparent pr-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
           <button onClick={() => handleScroll('left')} className="pointer-events-auto h-full px-1 hover:text-white text-[#94A3B8] transition-colors flex items-center">
             <ChevronLeft size={20} className="mb-0.5" />
           </button>
         </div>
-
-        {/* Right Scroll Arrow Gradient */}
         <div className="absolute right-0 top-0 bottom-0 z-40 flex items-center bg-linear-to-l from-[#0B0E11] via-[#0B0E11] to-transparent pl-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
           <button onClick={() => handleScroll('right')} className="pointer-events-auto h-full px-1 hover:text-white text-[#94A3B8] transition-colors flex items-center">
             <ChevronRight size={20} className="mb-0.5" />
@@ -275,7 +310,6 @@ const WalletDropdown = () => (
               <ChevronDown className="text-slate-100" size={18} />
             </button>
           </div>
-          {/* Desktop Dropdown */}
           <NetworkDropdown />
         </div>
       </div>
@@ -288,15 +322,14 @@ const WalletDropdown = () => (
 
         {/* Mobile Icons */}
         <div className="flex sm:hidden items-center gap-2">
-          {/* Mobile Network Selector with Dropdown */}
+          {/* ... [Mobile Network Dropdown] ... */}
           <div className="relative flex" ref={dropdownRef}>
              <div className="w-full">
                 <button onClick={() => setIsNetworkDropdownOpen(!isNetworkDropdownOpen)} className="hover:brightness-125 border-2 flex shrink-0 flex-row h-8 pl-2 pr-1.5 gap-1.5 justify-center items-center rounded-full transition-all duration-150 ease-in-out active:scale-95" style={{ borderColor: 'rgba(20, 241, 149, 0.1)' }}>
                   <img alt="Solana" loading="lazy" width="16" height="16" src="/images/sol.svg" className="w-4 h-4" />
-                  <span className="text-sm text-slate-100 font-medium">SOL</span>\n                  <ChevronDown className="text-slate-100" size={18} />
+                  <span className="text-sm text-slate-100 font-medium">SOL</span>\n                  <ChevronDown className="text-slate-100" size={18} />
                 </button>
              </div>
-             {/* Mobile Dropdown */}
              <NetworkDropdown />
           </div>
           
@@ -356,17 +389,22 @@ const WalletDropdown = () => (
                 </button>
               </div>
             </div>
-            {/* Wallet Dropdown */}
             <WalletDropdown />
           </div>
 
-          <div className="relative flex">
+          {/* Settings/Profile Dropdown Trigger */}
+          <div className="relative flex" ref={settingsDropdownRef}>
             <div className="w-full">
-              <button className="bg-[#1C212B] flex flex-row w-8 h-8 px-1.25 gap-2 justify-center items-center rounded-full hover:bg-[#2A2F3A]">
+              <button 
+                onClick={() => setIsSettingsDropdownOpen(!isSettingsDropdownOpen)}
+                className="bg-[#1C212B] flex flex-row w-8 h-8 px-1.25 gap-2 justify-center items-center rounded-full hover:bg-[#2A2F3A]"
+              >
                 <img src="/images/profile.png" alt="Profile" className="w-4.5 h-4.5" />
               </button>
             </div>
+            <SettingsDropdown isSettingsDropdownOpen={isSettingsDropdownOpen} />
           </div>
+
         </div>
       </div>
     </div>

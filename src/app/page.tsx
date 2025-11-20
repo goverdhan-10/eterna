@@ -8,6 +8,7 @@ import { TokenColumn } from '@/components/TokenColumn';
 import { TokenDetailModal } from '@/components/TokenDetailModal';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import KeyboardBoxLineIcon from '@/components/ui/KeyboardBoxLineIcon';
+import Filter from '@/components/Filter';
 
 function PageContent() {
   const dispatch = useAppDispatch();
@@ -42,128 +43,175 @@ function PageContent() {
   const handleTokenSelect = (token: any) => {
     dispatch(setSelectedToken(selectedToken?.id === token.id ? null : token));
   };
+  const [showFilter, setShowFilter] = React.useState(false);
+
+  // --- FIXED TOOLTIP COMPONENT ---
+  const TooltipRight = ({ children, text }) => (
+    <div className="relative flex items-center justify-center group z-50">
+      {children}
+      
+      {/* Tooltip Body */}
+      {/* FIXED: Changed z-100 to z-[100] */}
+      <div className="absolute left-full top-1/2 -translate-y-1/2 ml-2.5 hidden group-hover:block z-[100] whitespace-nowrap pointer-events-none">
+        <div 
+          // FIXED: Added bg-[#101114] class and kept inline style
+          className="bg-[#101114] text-slate-200 text-[10px] leading-3 font-medium py-1.5 px-2 rounded-sm shadow-xl border border-[#2A2F3A] relative"
+          style={{ backgroundColor: '#101114' }} 
+        >
+          {text}
+          
+          {/* Arrow pointing Left */}
+          <div 
+            // FIXED: Added bg-[#101114] class and kept inline style
+            className="bg-[#101114] w-1.5 h-1.5 border-l border-b border-[#2A2F3A] transform rotate-45 absolute top-1/2 -translate-y-1/2 -left-[3.5px]"
+            style={{ backgroundColor: '#101114' }} 
+          ></div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <>
       <div
-  className="
-    grayscale-30 hover:grayscale-0 transition-[filter]
-    relative flex flex-row w-full h-7 gap-2
-    px-4 pb-[px] overflow-hidden
-    border-b border-[#171820] sm:border-[#171820]/70
-  "
->
-  {/* Settings */}
-  <div className="flex flex-row h-full items-center z-20 gap-[8px]">
-    <span className="contents">
-      <button
-  type="button"
-  className="
-    group
-    min-w-[24px] min-h-[24px] flex items-center justify-center
-    hover:bg-[#171820] transition-colors duration-125 ease-in-out
-    rounded-[4px]
-  "
->
-  <img
-    src="/images/setting.png"
-    alt="star"
-    className="
-      w-3 h-3
-      opacity-50
-      group-hover:opacity-100
-      transition-opacity duration-150
-    "
-  />
-</button>
-
-    </span>
-  </div>
-
-  {/* Divider */}
-  <div className="flex flex-row h-full items-center z-20 gap-[8px]">
-    <div className="w-[1px] h-[16px] bg-[#212229]"></div>
-  </div>
-
-  {/* Star + Chart */}
-  <div className="flex flex-row h-full items-center z-20 gap-[8px]">
-    <span className="contents">
-      <button
-        type="button"
-        className="
-          min-w-[24px] min-h-[24px] flex items-center justify-center
-          text-textSecondary hover:text-textSecondary
-          hover:bg-primaryStroke/60 transition-colors duration-125 ease-in-out
-          rounded-[4px]
-        "
-      >
-        <img
-  src="/images/star.png"
-  alt="star"
-  className="w-3 h-3"
-/>
-
-      </button>
-    </span>
-
-    <span className="contents">
-      <button
-  type="button"
-  className="
-    group
-    min-w-[24px] min-h-[24px] flex items-center justify-center
-    hover:bg-[#171820] transition-colors duration-125 ease-in-out
-    rounded-[4px]
-  "
->
-  <img
-    src="/images/chart.png"
-    alt="star"
-    className="
-      w-3 h-3
-      opacity-50
-      group-hover:opacity-100
-      transition-opacity duration-150
-    "
-  />
-</button>
-
-    </span>
-  </div>
-
-  {/* Divider */}
-  <div className="flex flex-row h-full items-center z-20 gap-[8px]">
-    <div className="w-[1.5px] h-[16px] bg-[#212229]"></div>
-  </div>
-
-  {/* Ticker Scroll Container */}
-  <div
-    className="
-      flex flex-row justify-start items-center flex-1 overflow-hidden
-      show-bins-container duration-150 ease-in-out
-    "
-  >
-    <div
       className="
-        h-full flex flex-row gap-[1px] pt-[1px] items-center overflow-x-auto
-        ticker-scroll-container
-        [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]
-        animate-ticker
+        grayscale-30 hover:grayscale-0 transition-[filter]
+        relative flex flex-row w-full h-7 gap-2
+        px-4 pb-[px] 
+        /* FIXED: Changed overflow-hidden to overflow-visible so tooltips can pop out */
+        overflow-visible z-50
+        border-b border-[#171820] sm:border-[#171820]/70
+        bg-[#0B0E11]
       "
     >
+      {/* Settings */}
+      <div className="flex flex-row h-full items-center z-20 gap-[8px]">
+        <span className="contents">
+          <TooltipRight text="Settings">
+            <button
+              type="button"
+              className="
+                group
+                min-w-[24px] min-h-[24px] flex items-center justify-center
+                hover:bg-[#171820] transition-colors duration-125 ease-in-out
+                rounded-[4px]
+              "
+            >
+              <img
+                src="/images/setting.png"
+                alt="settings"
+                className="
+                  w-3 h-3
+                  opacity-50
+                  group-hover:opacity-100
+                  transition-opacity duration-150
+                "
+              />
+            </button>
+          </TooltipRight>
+        </span>
+      </div>
+
+      {/* Divider */}
+      <div className="flex flex-row h-full items-center z-20 gap-[8px]">
+        <div className="w-[1px] h-[16px] bg-[#212229]"></div>
+      </div>
+
+      {/* Star + Chart */}
+      <div className="flex flex-row h-full items-center z-20 gap-[8px]">
+        <span className="contents">
+          <TooltipRight text="Watchlist">
+            <button
+              type="button"
+              className="
+                min-w-[24px] min-h-[24px] flex items-center justify-center
+                text-textSecondary hover:text-textSecondary
+                hover:bg-primaryStroke/60 transition-colors duration-125 ease-in-out
+                rounded-[4px]
+              "
+            >
+              <img
+                src="/images/star.png"
+                alt="star"
+                className="w-3 h-3"
+              />
+            </button>
+          </TooltipRight>
+        </span>
+
+        <span className="contents">
+          <TooltipRight text="Active Positions">
+            <button
+              type="button"
+              className="
+                group
+                min-w-[24px] min-h-[24px] flex items-center justify-center
+                hover:bg-[#171820] transition-colors duration-125 ease-in-out
+                rounded-[4px]
+              "
+            >
+              <img
+                src="/images/chart.png"
+                alt="chart"
+                className="
+                  w-3 h-3
+                  opacity-50
+                  group-hover:opacity-100
+                  transition-opacity duration-150
+                "
+              />
+            </button>
+          </TooltipRight>
+        </span>
+      </div>
+
+      {/* Divider */}
+      <div className="flex flex-row h-full items-center z-20 gap-[8px]">
+        <div className="w-[1.5px] h-[16px] bg-[#212229]"></div>
+      </div>
+
+      {/* Ticker Scroll Container */}
       <div
-        style={{
-          width: "0px",
-          height: "100%",
-          position: "relative",
-          display: "flex",
-        }}
-      ></div>
+        className="
+          flex flex-row justify-start items-center flex-1 
+          /* Keep overflow-hidden here for the ticker, but it's a child so it won't clip the tooltips on the left */
+          overflow-hidden
+          show-bins-container duration-150 ease-in-out
+        "
+      >
+        <div
+          className="
+            h-full flex flex-row gap-[1px] pt-[1px] items-center overflow-x-auto
+            ticker-scroll-container
+            [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]
+            animate-ticker
+          "
+        >
+          <div
+            style={{
+              width: "0px",
+              height: "100%",
+              position: "relative",
+              display: "flex",
+            }}
+          ></div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
       <div className="min-h-screen bg-[#06070b] flex flex-col">
+        {showFilter && (
+  <>
+    {/* Blur Background */}
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-md z-[80]" />
+
+    {/* Centered Filter Popover */}
+    <div className="fixed inset-0 z-[90] flex justify-center items-center">
+      <Filter onClose={() => setShowFilter(false)} />
+    </div>
+  </>
+)}
+
         {/* Main Content */}
         <div className="flex-1 p-3 sm:p-6 lg:p-8 overflow-auto">
           <div className="flex-none flex flex-row w-full h-[32px] justify-start items-center">
@@ -365,6 +413,7 @@ function PageContent() {
               onSortChange={handleSortChange}
               onTokenSelect={handleTokenSelect}
               selectedTokenId={selectedToken?.id}
+              onOpenFilter={() => setShowFilter(true)}
             />
 
             {/* Final Stretch */}
@@ -377,6 +426,7 @@ function PageContent() {
               onSortChange={handleSortChange}
               onTokenSelect={handleTokenSelect}
               selectedTokenId={selectedToken?.id}
+              onOpenFilter={() => setShowFilter(true)}
             />
 
             {/* Migrated */}
@@ -389,6 +439,7 @@ function PageContent() {
               onSortChange={handleSortChange}
               onTokenSelect={handleTokenSelect}
               selectedTokenId={selectedToken?.id}
+              onOpenFilter={() => setShowFilter(true)}
             />
           </div>
         </div>
@@ -415,4 +466,3 @@ export default function Page() {
     </ErrorBoundary>
   );
 }
-
