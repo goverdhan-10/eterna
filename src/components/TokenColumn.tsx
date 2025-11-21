@@ -74,10 +74,10 @@ export const TokenColumn: React.FC<TokenColumnProps> = memo(({
   }, [tokens, orderedIds]);
 
   return (
-    <div className="border-r-[px] border-[#1f2128] flex flex-1 flex-col h-full justify-start items-center overflow-hidden bg-[#101114]">
+    <div className="border-[1px] border-[#1f2128] flex flex-1 flex-col h-full justify-start items-center overflow-hidden bg-[#101114]">
       
       <div className="sticky top-0 z-30 w-full">
-        <div className="hidden sm:flex sticky top-0 z-30 whitespace-nowrap flex-row w-full gap-[12px] min-h-[48px] justify-end items-center pr-[12px] pl-[4px] lg:pl-[12px] xl:pl-[12px] border-b-[1px] border-primaryStroke bg-[#101114]">
+        <div className="hidden sm:flex sticky top-0 z-30 whitespace-nowrap flex-row w-full gap-[12px] min-h-[48px] justify-end items-center pr-[12px] pl-[4px] lg:pl-[12px] xl:pl-[12px] border-primaryStroke bg-[#101114]">
           <div className="flex flex-row items-center gap-[16px] flex-1">
             <span className="text-textPrimary text-[16px] font-medium flex-1">
               {title}

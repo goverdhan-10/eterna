@@ -67,8 +67,8 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
     <div 
       onClick={() => onSelect?.(token)}
       className={`
-        border-[#101114] border-b flex flex-col w-full justify-start items-center cursor-pointer relative 
-        /* UPDATED: Changed overflow-hidden to overflow-visible and added z-index on hover for popup */
+        border-[#1f2128] border flex flex-col w-full justify-start items-center cursor-pointer relative 
+        
         overflow-visible hover:z-50
         hover:bg-primaryStroke/50 group lg:group xl:hover:bg-primaryStroke/50 
         h-[142px] min-h-[142px] sm:h-[116px] sm:min-h-[116px] md:h-[142px] md:min-h-[142px] lg:h-[142px] lg:min-h-[142px] xl:h-[116px] xl:min-h-[116px] 

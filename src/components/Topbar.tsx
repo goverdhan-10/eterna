@@ -27,7 +27,7 @@ const LogoIcon = () => (
 );
 
 const WordmarkIcon = () => (
-  <svg width="102" height="21" viewBox="0 0 103 19" fill="none" xmlns="http://www.w3.org/2000/svg" className="max-w-xs hidden 2xl:block text-slate-100 ml-3">
+  <svg width="102" height="21" viewBox="0 0 103 19" fill="none" xmlns="http://www.w3.org/2000/svg" className=" hidden 2xl:block text-slate-100">
     <path d="M56.1914 18.3745V1.33447H59.7434L64.8074 15.3265L69.8714 1.33447H73.4234V18.3745H70.8314V5.89447L66.2474 18.3505H63.3674L58.7834 5.89447V18.3745H56.1914Z" fill="currentColor"></path>
     <path d="M45.9362 18.7584C40.9922 18.7584 37.9922 15.3984 37.9922 9.87844C37.9922 4.35844 40.9922 0.950439 45.9362 0.950439C50.9282 0.950439 53.9042 4.35844 53.9042 9.87844C53.9042 15.3984 50.9282 18.7584 45.9362 18.7584ZM45.9362 16.3824C49.2482 16.3824 51.2162 13.9824 51.2162 9.87844C51.2162 5.77444 49.2482 3.32644 45.9362 3.32644C42.6482 3.32644 40.6802 5.77444 40.6802 9.87844C40.6802 13.9824 42.6482 16.3824 45.9362 16.3824Z" fill="currentColor"></path>
     <path d="M33.1055 18.3745V1.33447H35.6975V18.3745H33.1055Z" fill="currentColor"></path>
@@ -187,7 +187,7 @@ const WalletDropdown = ({ isOpen }: { isOpen: boolean }) => (
 
 const SettingsDropdown = ({ isOpen }: { isOpen: boolean }) => (
   <div className={`
-    absolute top-[calc(100%+12px)] right-0 z-[9999] w-60
+    absolute top-[calc(100%+12px)] right-0 z-9999 w-60
     bg-[#0B0E11] border border-[#1C212B] rounded-sm shadow-2xl 
     flex flex-col transition-all duration-200 origin-top-right overflow-hidden py-2
     ${isOpen ? 'opacity-100 visible translate-y-0' : 'opacity-0 invisible translate-y-2'}
@@ -280,7 +280,7 @@ export default function Topbar() {
       )}
       
       {/* FIX APPLIED HERE: Changed z-50 to z-[60] so it sits above PageContent (z-50) */}
-      <div className="border-b border-[#1C212B] z-[60] relative flex flex-row w-full h-[52px] sm:h-16 min-h-12 sm:min-h-16 px-4 sm:px-4 lg:px-6 gap-4 sm:gap-4 lg:gap-6 justify-between sm:justify-start items-center bg-[#0B0E11]">
+      <div className="border-b border-[#1C212B] z-60 relative flex flex-row w-full h-[52px] sm:h-16 min-h-12 sm:min-h-16 px-4 sm:px-4 lg:px-6 gap-4 sm:gap-4 lg:gap-6 justify-between sm:justify-start items-center bg-[#0B0E11]">
       
         {/* --- LOGO --- */}
         <div className="flex flex-row flex-0 gap-0 justify-start items-center w-auto min-w-max">
