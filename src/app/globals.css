@@ -3,6 +3,43 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --primary-color: 82 111 255;
+  --primary-hue: 230;
+  --primary-color-hover: 102 131 255;
+  
+  /* Backgrounds */
+  --background: #06070B; /* Hex value from image */
+  --background-secondary: 16 17 20;
+  --background-tertiary: 24 24 26;
+
+  /* Borders & Strokes */
+  --primary-stroke: 34 36 45;
+  --secondary-stroke: 50 53 66;
+  --border-subtle: 31 31 35;
+
+  /* Typography */
+  --text-primary: 252 252 252;
+  --text-secondary: 200 201 209;
+  --text-tertiary: 119 122 140;
+  --translation-text-color: 242 195 102;
+
+  /* Market/Status Indicators */
+  --increase: 47 227 172;
+  --decrease: 236 57 122;
+  --increase-hover: 91 231 189;
+  --decrease-hover: 248 100 154;
+
+  /* Charts */
+  --chart-up: 11 153 129;
+  --chart-down: 242 53 70;
+
+  /* Accent Palette */
+  --primary-green: 18 175 128;
+  --primary-yellow: 220 193 60;
+  --primary-orange: 226 124 77;
+  --primary-orange-hover: 238 146 103;
+  --primary-red: 242 84 97;
+  --primary-light-blue: 82 197 255;
 }
 
 @theme inline {
@@ -22,7 +59,9 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* shimmer effect for placeholders */

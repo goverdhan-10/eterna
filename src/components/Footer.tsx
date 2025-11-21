@@ -183,9 +183,9 @@ export default function Footer() {
           {/* Right Items */}
           <div className="flex flex-row shrink-0 gap-2 justify-end items-center">
             <div className="hidden 2xl:flex items-center gap-4">
-               <TooltipWrapper text="Estimated Market Price"><span className="text-slate-500 text-[12px] font-medium hover:text-slate-400 cursor-help">$54.2M</span></TooltipWrapper>
-               <div className="flex gap-1.5 h-[24px] items-center cursor-help"><img src="/images/pump.png" className="w-3.5 h-3.5 opacity-60" /><span className="text-slate-500 text-[12px] font-normal">0.0<sub>2</sub>41</span></div>
-               <div className="flex gap-1.5 h-[24px] items-center cursor-help"><img src="/images/database.png" className="w-3.5 h-3.5 opacity-60" /><span className="text-slate-500 text-[12px] font-normal">0.0<sub>2</sub>92</span></div>
+               <TooltipWrapper text="Estimated Market Price"><span className="text-slate-500 text-[12px] font-medium hover:text-slate-400">$54.2M</span></TooltipWrapper>
+               <div className="flex gap-1.5 h-[24px] items-center "><img src="/images/pump.png" className="w-3.5 h-3.5 opacity-60" /><span className="text-slate-500 text-[12px] font-normal">0.0<sub>2</sub>41</span></div>
+               <div className="flex gap-1.5 h-[24px] items-center "><img src="/images/database.png" className="w-3.5 h-3.5 opacity-60" /><span className="text-slate-500 text-[12px] font-normal">0.0<sub>2</sub>92</span></div>
             </div>
 
             <div className="hidden 2xl:flex w-px h-5 bg-white/10 shrink-0"></div>

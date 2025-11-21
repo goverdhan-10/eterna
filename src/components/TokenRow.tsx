@@ -85,7 +85,7 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
             className="absolute z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-0 text-textTertiary hover:text-[#434d89] w-6 h-6 flex items-center justify-center rounded-sm bg-[#101114]"
             style={{ top: "6px", left: "6px" }}
           >
-            <img src={eyeOn ? "/images/eye.png" : "/images/eye-off.png"} alt="eye" className="w-[14px] h-[14px]" />
+            <img src={eyeOn ? "/images/eye.png" : "/images/eye-off.png"} alt="eye" className="w-3.5 h-3.5" />
           </button>
         </span>
 
@@ -96,7 +96,7 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
             className="absolute z-50 opacity-0 group-hover:opacity-100 transition-opacity duration-0 text-textTertiary hover:text-[#434d89] w-6 h-6 flex items-center justify-center rounded-sm bg-[#101114]"
             style={{ top: "32px", left: "6px" }}
           >
-            <img src={chefOn ? "/images/cooking.png" : "/images/cook.png"} alt="chef" className="w-[14px] h-[14px]" />
+            <img src={chefOn ? "/images/cooking.png" : "/images/cook.png"} alt="chef" className="w-3.5 h-3.5" />
           </button>
         </span>
 
@@ -159,10 +159,10 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
     hidden sm:block 
     lg:opacity-0 lg:group-hover:opacity-100 
     xl:opacity-100 
-    2xl:!opacity-100
+    2xl:opacity-100!
   "
 >
-  <div className="opacity-0 group-hover:opacity-100 2xl:!opacity-100">
+  <div className="opacity-0 group-hover:opacity-100 2xl:opacity-100!">
     <button
       type="button"
       className="
@@ -269,7 +269,7 @@ export const TokenRow: React.FC<TokenRowProps> = memo(({ token, onSelect, isSele
                   <div className="w-[68px] h-[68px] shrink-0 group/image relative">
                     
                     {/* --- BIG IMAGE POPUP --- */}
-                    <div className="hidden group-hover/image-container:block absolute left-[75px] bottom-0 z-[100] pointer-events-none">
+                    <div className="hidden group-hover/image-container:block absolute left-[75px] bottom-0 z-100 pointer-events-none">
                       {/* Set width/height here. Using 150px to ensure it is 'big' as requested. 50px would be smaller than thumbnail. */}
                       <div className="w-[150px] h-[150px] bg-[#101114] border border-[#2A2F3A] shadow-2xl p-1 rounded-md flex items-center justify-center relative">
                         {token.image ? (
