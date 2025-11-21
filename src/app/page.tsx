@@ -48,8 +48,8 @@ const TooltipTop = ({ children, text }: { children: React.ReactNode; text: strin
 );
 
 const VerticalDivider = ({ width = "w-px" }: { width?: string }) => (
-  <div className="flex flex-row h-full items-center z-20 gap-[8px]">
-    <div className={`${width} h-[16px] bg-[#212229]`}></div>
+  <div className="flex flex-row h-full items-center z-20 gap-2">
+    <div className={`${width} h-4 bg-[#212229]`}></div>
   </div>
 );
 
@@ -72,8 +72,8 @@ const HeaderIconButton: React.FC<HeaderIconProps> = ({ icon, alt, tooltip, isGro
         type="button"
         className={`
           ${isGroup ? 'group' : ''}
-          min-w-[24px] min-h-[24px] flex items-center justify-center
-          ${className || 'hover:bg-[#171820] transition-colors duration-125 ease-in-out rounded-[4px]'}
+          min-w-6 min-h-6 flex items-center justify-center
+          ${className || 'hover:bg-[#171820] transition-colors duration-125 ease-in-out rounded'}
         `}
       >
         <img
@@ -88,7 +88,7 @@ const HeaderIconButton: React.FC<HeaderIconProps> = ({ icon, alt, tooltip, isGro
 
 const Ticker = () => (
   <div className="flex flex-row justify-start items-center flex-1 overflow-hidden show-bins-container duration-150 ease-in-out">
-    <div className="h-full flex flex-row gap-[1px] pt-[1px] items-center overflow-x-auto ticker-scroll-container [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] animate-ticker">
+    <div className="h-full flex flex-row gap-px pt-px items-center overflow-x-auto ticker-scroll-container [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] animate-ticker">
       <div style={{ width: "0px", height: "100%", position: "relative", display: "flex" }}></div>
     </div>
   </div>
@@ -101,13 +101,13 @@ const Ticker = () => (
 const ChainToggle = () => (
   <div className="flex items-center gap-1">
     <TooltipTop text="Solana">
-      <button type="button" className="relative flex items-center justify-center w-[32px] h-[32px] rounded-full transition-all duration-150 bg-[#171820] scale-110">
+      <button type="button" className="relative flex items-center justify-center w-8 h-8 rounded-full transition-all duration-150 bg-[#171820] scale-110">
         <img src="/images/sol.svg" alt="SOL" width={20} height={20} />
       </button>
     </TooltipTop>
     <TooltipTop text="BNB">
-      <button type="button" className="relative flex items-center justify-center w-[32px] h-[32px] rounded-full transition-all duration-150 hover:bg-primaryStroke/30 hover:opacity-100">
-        <img src="/images/bnb.svg" alt="BNB" width={20} height={20} className="grayscale-[0.3]" />
+      <button type="button" className="relative flex items-center justify-center w-8 h-8 rounded-full transition-all duration-150 hover:bg-primaryStroke/30 hover:opacity-100">
+        <img src="/images/bnb.svg" alt="BNB" width={20} height={20} className="grayscale-30" />
       </button>
     </TooltipTop>
   </div>
@@ -144,12 +144,12 @@ const WalletSelector = () => {
       <TooltipTop text="Active Wallets">
         <button 
           onClick={() => setIsOpen(!isOpen)}
-          className={`flex border border-[#2A2F3A] flex-row p-[4px] pr-[12px] pl-[12px] h-[32px] gap-[8px] justify-center items-center rounded-full hover:bg-[#2A2F3A]/35 transition-colors ${isOpen ? 'bg-[#2A2F3A]/35' : ''}`}
+          className={`flex border border-[#2A2F3A] flex-row p-1 pr-3 pl-3 h-8 gap-2 justify-center items-center rounded-full hover:bg-[#2A2F3A]/35 transition-colors ${isOpen ? 'bg-[#2A2F3A]/35' : ''}`}
         >
           <img src="/images/wal2.png" alt="wallet" className="w-[18px] h-[18px] opacity-70 group-hover:opacity-100 transition-colors duration-150 ease-in-out" />
-          <span className="text-[14px] text-slate-400 font-medium">1</span>
+          <span className="text-sm text-slate-400 font-medium">1</span>
           <img src="/images/sol.svg" width={16} height={16} alt="SOL" />
-          <span className="text-[14px] text-slate-200 font-medium">0</span>
+          <span className="text-sm text-slate-200 font-medium">0</span>
           <img 
             src="/images/down.png" 
             alt="down arrow" 
@@ -160,22 +160,22 @@ const WalletSelector = () => {
 
       {isOpen && (
         <div 
-          className="absolute top-full right-0 mt-2 w-[348px] bg-[#101114] border border-[#2A2F3A] rounded-[4px] shadow-xl z-[9999] origin-top-right"
+          className="absolute top-full right-0 mt-2 w-[348px] bg-[#101114] border border-[#2A2F3A] rounded shadow-xl z-[9999] origin-top-right"
         >
-          <div className="flex flex-col gap-[16px]">
+          <div className="flex flex-col gap-4">
             <div className="flex flex-col">
               {/* Header */}
               <div className="flex flex-col">
-                <div className="flex flex-row gap-[4px] pl-[16px] pr-[12px] h-[44px] justify-between items-center">
-                  <div className="flex flex-row gap-[8px] items-center">
-                    <button type="button" className="group flex flex-row gap-[4px] justify-start items-center rounded-full px-[7px] h-[24px] border border-[#2A2F3A] bg-[#2A2F3A]/60 hover:bg-[#2A2F3A]/90 transition-colors duration-125 ease-in-out">
-                      <span className="text-slate-200 text-[12px] leading-[16px] font-medium">Unselect All</span>
+                <div className="flex flex-row gap-1 pl-4 pr-3 h-11 justify-between items-center">
+                  <div className="flex flex-row gap-2 items-center">
+                    <button type="button" className="group flex flex-row gap-1 justify-start items-center rounded-full px-1.5 h-6 border border-[#2A2F3A] bg-[#2A2F3A]/60 hover:bg-[#2A2F3A]/90 transition-colors duration-125 ease-in-out">
+                      <span className="text-slate-200 text-xs leading-4 font-medium">Unselect All</span>
                     </button>
-                    <button type="button" disabled className="group flex flex-row gap-[4px] justify-start items-center rounded-full px-[7px] h-[24px] opacity-50 cursor-not-allowed border border-[#2A2F3A]/20 bg-[#2A2F3A]/30 transition-colors duration-125 ease-in-out">
-                      <span className="text-slate-200 text-[12px] leading-[16px] font-medium">Select All with Balance</span>
+                    <button type="button" disabled className="group flex flex-row gap-1 justify-start items-center rounded-full px-1.5 h-6 opacity-50 cursor-not-allowed border border-[#2A2F3A]/20 bg-[#2A2F3A]/30 transition-colors duration-125 ease-in-out">
+                      <span className="text-slate-200 text-xs leading-4 font-medium">Select All with Balance</span>
                     </button>
                   </div>
-                  <button type="button" className="group flex items-center justify-center w-[24px] h-[24px] rounded-[4px] hover:bg-[#2A2F3A]/20 transition-colors duration-150 ease-in-out">
+                  <button type="button" className="group flex items-center justify-center w-6 h-6 rounded hover:bg-[#2A2F3A]/20 transition-colors duration-150 ease-in-out">
                   <img
                     src="/images/setting.png"
                     alt="settings"
@@ -192,22 +192,22 @@ const WalletSelector = () => {
                 <div className="group hover:bg-[#2A2F3A]/10 flex flex-row justify-start items-center cursor-pointer">
                   
                   {/* Checkbox Section */}
-                  <div className="flex flex-row gap-[0px] p-[16px] pr-[16px] items-start">
-                    <div className="inline-flex flex-row h-[16px] justify-start items-center cursor-pointer">
-                      <div className="border-[1px] border-[rgb(247,147,26)] flex flex-row w-[16px] h-[16px] p-[2px] justify-center items-center rounded-[4px] cursor-pointer">
-                        <div className="w-[10px] h-[10px] bg-[rgb(247,147,26)] rounded-[1px]"></div>
+                  <div className="flex flex-row gap-0 p-4 pr-4 items-start">
+                    <div className="inline-flex flex-row h-4 justify-start items-center cursor-pointer">
+                      <div className="border border-[rgb(247,147,26)] flex flex-row w-4 h-4 p-0.5 justify-center items-center rounded cursor-pointer">
+                        <div className="w-2.5 h-2.5 bg-[rgb(247,147,26)] rounded-sm"></div>
                       </div>
                     </div>
                   </div>
 
                   {/* Wallet Info Section */}
-                  <div className="border-[#2A2F3A]/50 border-b-[1px] flex flex-1 flex-row h-[56px] gap-[0px] pl-[0px] justify-start items-center">
-                    <div className="flex flex-col flex-1 gap-[4px] justify-start items-start pr-[16px] min-w-[100px]">
-                      <span className="text-[rgb(247,147,26)] whitespace-nowrap text-[14px] leading-[18px] font-medium flex items-center gap-[4px]">
+                  <div className="border-[#2A2F3A]/50 border-b flex flex-1 flex-row h-14 gap-0 pl-0 justify-start items-center">
+                    <div className="flex flex-col flex-1 gap-1 justify-start items-start pr-4 min-w-[100px]">
+                      <span className="text-[rgb(247,147,26)] whitespace-nowrap text-sm leading-[18px] font-medium flex items-center gap-1">
                         Axiom Main
                       </span>
-                      <div className="flex flex-row gap-[6px]">
-                        <button className="text-slate-500 hover:text-slate-400 transition-colors duration-[125ms] ease-in-out group h-[16px] flex flex-row gap-[3px] pl-[4px] pr-[5px] cursor-pointer justify-start items-center rounded-full">
+                      <div className="flex flex-row gap-1.5">
+                        <button className="text-slate-500 hover:text-slate-400 transition-colors duration-[125ms] ease-in-out group h-4 flex flex-row gap-0.75 pl-1 pr-1.25 cursor-pointer justify-start items-center rounded-full">
                           <img
                             src="/images/rocket.png"
                             alt="rocket"
@@ -216,8 +216,8 @@ const WalletSelector = () => {
 
                           <span className="whitespace-nowrap text-[11px] font-medium">Off</span>
                         </button>
-                        <button className="text-slate-500 hover:text-slate-400 flex flex-row gap-[4px] transition-colors duration-[125ms] ease-in-out cursor-pointer">
-                          <span className="text-[12px] leading-4 font-medium">Dh7Hg</span>
+                        <button className="text-slate-500 hover:text-slate-400 flex flex-row gap-1 transition-colors duration-[125ms] ease-in-out cursor-pointer">
+                          <span className="text-xs leading-4 font-medium">Dh7Hg</span>
                           <img
                             src="/images/copy.png"
                             alt="copy"
@@ -229,22 +229,22 @@ const WalletSelector = () => {
                     </div>
 
                     {/* Balance Section */}
-                    <div className="flex flex-1 flex-row gap-[0px] pr-[0px] justify-end items-center">
-                      <div className="border border-[#2A2F3A]/50 flex flex-row h-[26px] pl-[6px] pr-[6px] gap-[4px] justify-end items-center rounded-full">
+                    <div className="flex flex-1 flex-row gap-0 pr-0 justify-end items-center">
+                      <div className="border border-[#2A2F3A]/50 flex flex-row h-[26px] pl-1.5 pr-1.5 gap-1 justify-end items-center rounded-full">
                         <img alt="SOL" width="16" height="16" src="/images/sol.svg" />
-                        <span className="text-slate-400 text-[12px] leading-[16px] font-normal">0</span>
+                        <span className="text-slate-400 text-xs leading-4 font-normal">0</span>
                       </div>
                     </div>
 
                     {/* Token Count Section */}
-                    <div className="flex flex-1 flex-row pr-[16px] justify-end items-center gap-[0px]">
-                      <div className="border border-[#2A2F3A]/50 flex flex-row h-[26px] pl-[7px] pr-[6px] gap-[4px] justify-end items-center rounded-full ml-2">
+                    <div className="flex flex-1 flex-row pr-4 justify-end items-center gap-0">
+                      <div className="border border-[#2A2F3A]/50 flex flex-row h-[26px] pl-1.75 pr-1.5 gap-1 justify-end items-center rounded-full ml-2">
                         <div className="relative flex flex-row justify-start items-center w-[26px] h-[13px]">
-                          <div className="absolute left-[0px] bg-[#323239] flex flex-row h-[13px] w-[13px] justify-center items-center rounded-[4px] z-[3]"></div>
-                          <div className="absolute left-[6px] bg-[#2A2F3A] flex flex-row h-[13px] w-[13px] justify-center items-center rounded-[4px] z-[2]"></div>
-                          <div className="absolute left-[12px] bg-slate-600 flex flex-row h-[13px] w-[13px] justify-center items-center rounded-[4px] z-[1]"></div>
+                          <div className="absolute left-0 bg-[#323239] flex flex-row h-[13px] w-[13px] justify-center items-center rounded z-3"></div>
+                          <div className="absolute left-1.5 bg-[#2A2F3A] flex flex-row h-[13px] w-[13px] justify-center items-center rounded z-2"></div>
+                          <div className="absolute left-3 bg-slate-600 flex flex-row h-[13px] w-[13px] justify-center items-center rounded z-1"></div>
                         </div>
-                        <span className="text-slate-400 text-[12px] leading-[16px] font-normal">0</span>
+                        <span className="text-slate-400 text-xs leading-4 font-normal">0</span>
                       </div>
                     </div>
                   </div>
@@ -252,14 +252,14 @@ const WalletSelector = () => {
               </div>
 
               {/* Footer */}
-              <button type="button" className="flex flex-row w-full h-[48px] px-[16px] gap-[16px] items-center hover:bg-[#2A2F3A]/35 transition-colors duration-150 ease-in-out cursor-pointer border-t border-[#2A2F3A]">
+              <button type="button" className="flex flex-row w-full h-12 px-4 gap-4 items-center hover:bg-[#2A2F3A]/35 transition-colors duration-150 ease-in-out cursor-pointer border-t border-[#2A2F3A]">
                 <img
                   src="/images/plus.png"
                   alt="add"
                   className="w-3 h-3 object-contain opacity-70 group-hover:opacity-100 transition-colors duration-150 ease-in-out"
                 />
 
-                <span className="text-slate-200 text-[14px] font-medium">Add Wallet</span>
+                <span className="text-slate-200 text-sm font-medium">Add Wallet</span>
               </button>
             </div>
           </div>
@@ -271,14 +271,14 @@ const WalletSelector = () => {
 
 const QuickActions = () => (
   <div className="hidden sm:block lg:hidden">
-    <div className="flex flex-row h-full gap-[8px] items-center">
-      <div className="overflow-hidden whitespace-nowrap border-primaryStroke border-[1px] flex flex-row min-w-[216px] h-[32px] pl-[12px] gap-[8px] justify-start items-center rounded-full hover:bg-primaryStroke/35 transition-colors cursor-pointer">
+    <div className="flex flex-row h-full gap-2 items-center">
+      <div className="overflow-hidden whitespace-nowrap border-primaryStroke border flex flex-row min-w-[216px] h-8 pl-3 gap-2 justify-start items-center rounded-full hover:bg-primaryStroke/35 transition-colors cursor-pointer">
         <i className="ri-flashlight-fill text-textTertiary" />
-        <input placeholder="0.0" className="text-[14px] w-full text-textPrimary placeholder:text-textTertiary bg-transparent outline-none" />
+        <input placeholder="0.0" className="text-sm w-full text-textPrimary placeholder:text-textTertiary bg-transparent outline-none" />
         <img src="/images/sol.svg" width={16} height={16} alt="SOL" />
-        <div className="border-primaryStroke border-l-[1px] flex pr-[3px] pl-[3px] gap-[6px] items-center">
+        <div className="border-primaryStroke border-l flex pr-0.75 pl-0.75 gap-1.5 items-center">
           {['P1', 'P2', 'P3'].map((p, i) => (
-            <button key={p} className={`group w-[24px] h-[24px] ${i===2 ? 'rounded-r-full rounded-l-[4px]' : 'rounded-[4px]'} ${i===0 ? 'hover:bg-primaryBlueHover/10' : 'hover:bg-primaryStroke/60'} flex items-center justify-center`}>
+            <button key={p} className={`group w-6 h-6 ${i===2 ? 'rounded-r-full rounded-l' : 'rounded'} ${i===0 ? 'hover:bg-primaryBlueHover/10' : 'hover:bg-primaryStroke/60'} flex items-center justify-center`}>
               <span className={`text-[13px] ${i===0 ? 'text-primaryBlue group-hover:text-primaryBlueHover' : 'text-textSecondary'} font-medium`}>{p}</span>
             </button>
           ))}
@@ -353,7 +353,7 @@ function PageContent() {
             icon="/images/star.png" 
             alt="star" 
             tooltip="Watchlist" 
-            className="min-w-6 min-h-6 flex items-center justify-center text-textSecondary hover:text-textSecondary hover:bg-primaryStroke/60 transition-colors duration-125 ease-in-out rounded-[4px]"
+            className="min-w-6 min-h-6 flex items-center justify-center text-textSecondary hover:text-textSecondary hover:bg-primaryStroke/60 transition-colors duration-125 ease-in-out rounded"
           />
           <HeaderIconButton icon="/images/chart.png" alt="chart" tooltip="Active Positions" isGroup />
         </div>
@@ -379,29 +379,29 @@ function PageContent() {
           {/* Toolbar Row - Fixed Height */}
           <div className="flex-none flex flex-row w-full h-8 justify-start items-center mb-4">
             <div className="flex-1 flex items-center gap-3 bg-[#06070b] p-4">
-              <span className="text-textPrimary text-[20px] font-bold">Pulse</span>
+              <span className="text-textPrimary text-xl font-bold">Pulse</span>
               <ChainToggle />
             </div>
             <div className="flex flex-row gap-4 items-center bg-[#06070b] p-4">
               <TooltipTop text="Help with Pulse, Filters Settings">
-                <button className="flex flex-row w-[24px] h-[24px] justify-center items-center">
-                  <img src="/images/help.png" alt="Help" className="w-[20px] h-[20px] object-contain opacity-70 hover:opacity-100 transition-all" />
+                <button className="flex flex-row w-6 h-6 justify-center items-center">
+                  <img src="/images/help.png" alt="Help" className="w-5 h-5 object-contain opacity-70 hover:opacity-100 transition-all" />
                 </button>
               </TooltipTop>
               <div className="relative inline-block" ref={dropdownRef}>
               <button 
                 onClick={() => setIsOpen(!isOpen)}
                 className={`
-                    bg-[#22242d] flex flex-row h-[32px] px-[12px] gap-[8px] justify-center items-center rounded-full 
-                    hover:bg-[#2d2f39]/80 transition-colors duration-[150ms] ease-in-out
+                    bg-[#22242d] flex flex-row h-8 px-3 gap-2 justify-center items-center rounded-full 
+                    hover:bg-[#2d2f39]/80 transition-colors duration-150 ease-in-out
                     ${isOpen ? 'bg-[#2d2f39]/80' : ''}
                 `}
               >
                 <div className="relative">
                     <img src="/images/list.png" alt="list icon" className="w-[18px] h-[18px]" />
                 </div>
-                <div className="whitespace-nowrap flex flex-row gap-[4px] justify-start items-center">
-                    <span className="text-[14px] font-bold text-white">Display</span>
+                <div className="whitespace-nowrap flex flex-row gap-1 justify-start items-center">
+                    <span className="text-sm font-bold text-white">Display</span>
                 </div>
                 {/* Rotate arrow when open */}
                 <img 
